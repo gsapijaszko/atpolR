@@ -20,7 +20,7 @@ ATPOL grid was developed in late '60s in Institute of Botany at Jagiellonian Uni
 
 ## Basic usage
 
-* Prepare sample data
+* Prepare sample data in data folder
 * Extend data
 * Plot it 
 
