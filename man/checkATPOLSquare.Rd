@@ -7,19 +7,20 @@
 checkATPOLSquare(centroid, raster, distance)
 }
 \arguments{
-\item{centroid}{SF point geometry for which the check is performed,
+\item{centroid}{Simple Feature point geometry for which the check is performed,
 usually it corresponds to centroid of ATPOL 10km x 10km grid}
 
 \item{raster}{geocoded raster, it has to be in EPSG:2180 projection}
 
-\item{distance}{st_buffer distance from centroid point for which the check is done, default 1200 m}
+\item{distance}{\code{st_buffer} distance from centroid point for which the check is done, default 1200 m}
 }
 \value{
 "YES" or "?" for given SF point
 }
 \description{
 checkATPOLSquare() do a reverse enginnering of published ATPOL grids species,
-especially those published in: Zając, Adam, and Maria Zając, eds. 2001.
-Atlas rozmieszczenia roślin naczyniowych w Polsce. Distribution Atlas of Vascular Plants in Poland.
-Kraków: Laboratory of Computer Chorology - Institute of Botany - Jagiellonian University.
+especially those published in \insertCite{zajacAtlasRozmieszczeniaRoslin2001;textual}{atpolR}
+}
+\references{
+\insertAllCited{}
 }
