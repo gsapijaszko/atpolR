@@ -5,7 +5,7 @@ Version: 0.1.0
 Author: Grzegorz Sapijaszko <grzegorz@sapijaszko.net>
 Maintainer: Grzegorz Sapijaszko <grzegorz@sapijaszko.net>
 Description: ATPOL is a rectangular geobotanical grid system used in Poland. The ATPOL grid was developed in Institute of Botany, Jagiellonian University, Krakow, Poland in '70. Since then it is widely used to represent distribution of plants in Poland. 
-    atpolR provides functions to translate geographic coordinates to the grid and vice versa. It also allows to build a choreograph map.
+    atpolR provides functions to translate geographic coordinates to the grid and vice versa. It also allows to create a choreograph map.
 License: GPL-3 + file LICENSE 
 Encoding: UTF-8
 LazyData: true
@@ -21,3 +21,7 @@ RdMacros: Rdpack
 RoxygenNote: 7.2.0
 URL: https://github.com/gsapijaszko/atpolR
 BugReports: https://github.com/gsapijaszko/atpolR/issues
+Suggests: 
+    knitr,
+    rmarkdown
+VignetteBuilder: knitr
