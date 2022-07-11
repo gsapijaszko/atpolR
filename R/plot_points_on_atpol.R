@@ -22,6 +22,7 @@
 #' @importFrom graphics axis par
 #' @param main image title, usually a species name
 #' @param colors vector of colors to be used as a background, default internal .myCols
+#' @noRd
 #'
 .atpolBackground <- function(main = "", colors = .myCols){
   .bbox <- sf::st_bbox(atpol10k())

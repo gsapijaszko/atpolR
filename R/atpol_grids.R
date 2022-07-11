@@ -5,6 +5,8 @@ utils::globalVariables(c("Name", ".data"))
 #' @importFrom sf st_as_sf
 #' @return Simple Feature (sf) grid of polygons for 10kmx10km ATPOL grid
 #' @usage .atpol10k_full()
+#' @noRd
+#'
 .atpol10k_full <- function() {
   if(file.exists(system.file("extdata", "atpol10k.Rds", package = "atpolR"))) {
     v <- terra::vect(readRDS(system.file("extdata", "atpol10k.Rds", package = "atpolR", mustWork = TRUE)))

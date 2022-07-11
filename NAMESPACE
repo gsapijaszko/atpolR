@@ -3,7 +3,7 @@
 export(atpol100k)
 export(atpol10k)
 export(boundaryPL)
-export(checkATPOLSquare)
+export(check_atpol_square)
 export(grid_to_latlon)
 export(latlon_to_grid)
 export(plotPoitsOnAtpol)
