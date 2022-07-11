@@ -84,20 +84,20 @@ myCol <- c("#00A600",
            "#AA0000")
 
 
-v <- terra::vect(readRDS(system.file("extdata", "atpol10k.Rds", package = "atpolR", mustWork = TRUE)))
-v <- sf::st_as_sf(v)
-v
-
-boundary <- geodata::gadm(country = "POL", level = 1, path = tempdir(), version = "3.6")
-boundary <- sf::st_as_sf(boundary)
-sf::st_crs(boundary) <- 4326
-boundary <- sf::st_union(boundary) |>
-#   sf::st_cast(to = "MULTILINESTRING") |>
-  sf::st_as_sf() |>
-  sf::st_transform(crs = "EPSG:2180")
-
-v$intersects <- sf::st_intersects(v, boundary, sparse = FALSE)
-subset(v, v$intersects == TRUE)
+# v <- terra::vect(readRDS(system.file("extdata", "atpol10k.Rds", package = "atpolR", mustWork = TRUE)))
+# v <- sf::st_as_sf(v)
+# v
+#
+# boundary <- geodata::gadm(country = "POL", level = 1, path = tempdir(), version = "3.6")
+# boundary <- sf::st_as_sf(boundary)
+# sf::st_crs(boundary) <- 4326
+# boundary <- sf::st_union(boundary) |>
+# #   sf::st_cast(to = "MULTILINESTRING") |>
+#   sf::st_as_sf() |>
+#   sf::st_transform(crs = "EPSG:2180")
+#
+# v$intersects <- sf::st_intersects(v, boundary, sparse = FALSE)
+# subset(v, v$intersects == TRUE)
 
 # a<- atpol10k()
 # aggregate(atpol10k()[,"geometry"], by = list(substr(atpol10k()$Name, 1, 2)), sum)
