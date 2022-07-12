@@ -2,7 +2,7 @@
 % Please edit documentation in R/atpol_grids.R
 \name{atpol100k}
 \alias{atpol100k}
-\title{atpol100k returns ATPOL grid 100km x 100km and returns it as sf object}
+\title{atpol100k creates ATPOL grid 100km x 100km and returns it as sf object}
 \usage{
 atpol100k()
 }
@@ -10,5 +10,5 @@ atpol100k()
 Simple Feature (sf) grid of polygons for 100kmx100km ATPOL grid
 }
 \description{
-atpol100k returns ATPOL grid 100km x 100km and returns it as sf object
+atpol100k creates ATPOL grid 100km x 100km and returns it as sf object
 }
