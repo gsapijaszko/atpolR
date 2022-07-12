@@ -84,8 +84,11 @@ myCol <- c("#00A600",
            "#AA0000")
 
 
+<<<<<<< HEAD
 # # ograniczenie kwadratów ATPOL 10k do obszaru PL
 # #
+=======
+>>>>>>> cfd6f66dece65ff9282d7088ab53ed7179a605a8
 # v <- terra::vect(readRDS(system.file("extdata", "atpol10k.Rds", package = "atpolR", mustWork = TRUE)))
 # v <- sf::st_as_sf(v)
 # v
