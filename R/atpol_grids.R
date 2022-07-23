@@ -3,7 +3,7 @@ utils::globalVariables(c("Name", ".data"))
 #' .atpol10k_full reads ATPOL 10km x 10km grid from file and returns it as sf object
 #' @importFrom terra vect
 #' @importFrom sf st_as_sf
-#' @return Simple Feature (sf) grid of polygons for 10kmx10km ATPOL grid
+#' @return Simple Feature (sf) grid of polygons for 10km x 10km ATPOL grid
 #' @usage .atpol10k_full()
 #' @noRd
 #'
@@ -20,7 +20,7 @@ utils::globalVariables(c("Name", ".data"))
 
 #' atpol10k returns ATPOL grid 10x10 km and returns it as sf object
 #' @importFrom sf st_centroid
-#' @return Simple Feature (sf) grid of polygons for 10kmx10km ATPOL grid
+#' @return Simple Feature (sf) grid of polygons for 10km x 10km ATPOL grid
 #' @export
 #' @usage atpol10k()
 #'
@@ -32,7 +32,7 @@ atpol10k <- function() {
 
 #' atpol100k creates ATPOL grid 100km x 100km and returns it as sf object
 #' @importFrom stats aggregate setNames
-#' @return Simple Feature (sf) grid of polygons for 100kmx100km ATPOL grid
+#' @return Simple Feature (sf) grid of polygons for 100km x 100km ATPOL grid
 #' @export
 #' @usage atpol100k()
 #'

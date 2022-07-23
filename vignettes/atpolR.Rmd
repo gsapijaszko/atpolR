@@ -16,11 +16,11 @@ knitr::opts_chunk$set(
 ```
 
 ## Introduction
-ATPOL grid was developed in late '60s in Institute of Botany at Jagiellonian University in Kraków. For firs time it was used in Distribution atlas of vascular plants in Poland, and the backgrounds described in [@zajacAtlasDistributionVascular1978; @zajacZalozeniaMetodyczneAtlasu1978]. The extensive mathematical research and GIS implementation was done by Łukasz Komsta and Marek Verey [@komstaRewizjaMatematycznaSiatki2016; @vereyTeoretycznaAnalizaPraktyczne2017]. Algoritms provided by Komsta on [OpenATPOL](https://atpol.sourceforge.io/) are basis for implementation in `atpolR` package.
+ATPOL grid was developed in late '60s in Institute of Botany at Jagiellonian University in Kraków. For firs time it was used in Distribution atlas of vascular plants in Poland, and the backgrounds described in [@zajacAtlasDistributionVascular1978; @zajacZalozeniaMetodyczneAtlasu1978]. The extensive mathematical research and GIS implementation was done by Łukasz Komsta and Marek Verey [@komstaRewizjaMatematycznaSiatki2016; @vereyTeoretycznaAnalizaPraktyczne2017]. Algorithms provided by Komsta on [OpenATPOL](https://atpol.sourceforge.io/) are basis for implementation in `atpolR` package.
 
 ## Basic usage
 
-* Prepare sample data in data folder
+* Prepare sample data based on published ATPOL data
 * Extend data
 * Plot it 
 
@@ -28,7 +28,7 @@ ATPOL grid was developed in late '60s in Institute of Botany at Jagiellonian Uni
 ```{r setup}
 library(atpolR)
 ```
-Two basic functions `latlon_to_grid()` and `grid_to_latlon()` allows to quickly convert geographical coordinates to ATPOL grid and from grid to coordinates respectivelly.
+Two basic functions `latlon_to_grid()` and `grid_to_latlon()` allows to quickly convert geographical coordinates to ATPOL grid and from grid to coordinates respectively.
 
 ```{r}
 latlon_to_grid(51.01234, 17.23456, 4)

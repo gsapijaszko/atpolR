@@ -18,7 +18,7 @@ usually it corresponds to centroid of ATPOL 10km x 10km grid}
 "YES" or "?" for given SF point
 }
 \description{
-check_atpol_square() do a reverse enginnering of published ATPOL grids species,
+check_atpol_square() do a reverse engineering of published ATPOL grids species,
 especially those published in \insertCite{zajacAtlasRozmieszczeniaRoslin2001;textual}{atpolR}
 }
 \references{
