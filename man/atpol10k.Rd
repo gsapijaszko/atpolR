@@ -7,7 +7,7 @@
 atpol10k()
 }
 \value{
-Simple Feature (sf) grid of polygons for 10kmx10km ATPOL grid
+Simple Feature (sf) grid of polygons for 10km x 10km ATPOL grid
 }
 \description{
 atpol10k returns ATPOL grid 10x10 km and returns it as sf object

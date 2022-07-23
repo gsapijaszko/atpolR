@@ -69,7 +69,7 @@
 #' @importFrom grDevices dev.off png svg
 #' @importFrom terra plot
 #' @param myData SimpleFeature data frame with point geometry, usually centroid of ATPOL grid square
-#' @param outputType image output type, eiter "svg" or "png"
+#' @param outputType image output type, either "svg" or "png"
 #' @param filename name of file which will be written to disc
 #' @param main image title, usually a species name
 #' @param colors vector of colors to be used as a background, default internal .myCols
