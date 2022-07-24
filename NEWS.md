@@ -1,3 +1,4 @@
-Version: 0.1.0
+# atpolR: 0.1.0
 
+## News
   * First relase
