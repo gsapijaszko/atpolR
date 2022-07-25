@@ -81,3 +81,49 @@ atpol1k <- function(grid) {
     return(v)
   }
 }
+
+#' atpol_div_2 creates ATPOL grid divided by 2 and returns it as sf object. Useful for grids like 5 x 5 km, 500 x 500 m or 50 x 50 m. For details see \insertCite{vereyStandaryzacjaZapisuPodzialow2018;textual}{atpolR}
+#' @importFrom terra vect project
+#' @importFrom sf st_as_sf
+#' @return Simple Feature (sf) grid of polygons for ATPOL grid divided by 2, ie. 5 km or 500 m, or 50 m
+#' @param grid any valid ATPOL grid like "BE" or "DC5128"
+#' @export
+#' @usage atpol_div_2(grid)
+#' @examples
+#' atpol_div_2("BE")
+#' atpol_div_2(grid = c("BE23", "DC5128"))
+#' @references
+#'     \insertAllCited{}
+#'
+#'
+atpol_div_2 <- function(grid) {
+  g <- toupper({{grid}})
+  if (all(substr(g, 1, 2)[] %in% unique(substr(atpol10k()$Name, 1,2))) == FALSE) {
+    stop("Please make sure all grids are proper ATPOL grid squares, like 'BE' or 'CE2345'")
+  } else if (all(nchar(g[]) %% 2 == 0) == FALSE) {
+    stop("Please make sure length of all grid fields is 2, 4, 6, 8, 10 or 12")
+  } else {
+    v <- terra::vect()
+    for(gr in g) {
+      for(x1 in c(0:1)) {
+        print(paste0("Generating grid for ",gr,x1,"..."))
+        for(y1 in c(0:1)) {
+          g0 = structure(c(
+            grid_to_latlon(gr, xoffset = 0+y1*0.5, yoffset = 0+x1*0.5)[2],grid_to_latlon(gr, xoffset = 0.5+y1*0.5, yoffset = 0+x1*0.5)[2],
+            grid_to_latlon(gr, xoffset = 0.5+y1*0.5, yoffset = 0.5+x1*0.5)[2],grid_to_latlon(gr, xoffset = 0+y1*0.5, yoffset = 0.5+x1*0.5)[2],
+            grid_to_latlon(gr, xoffset = 0+y1*0.5, yoffset = 0+x1*0.5)[1],grid_to_latlon(gr, xoffset = 0.5+y1*0.5, yoffset = 0+x1*0.5)[1],
+            grid_to_latlon(gr, xoffset = 0.5+y1*0.5, yoffset = 0.5+x1*0.5)[1],grid_to_latlon(gr, xoffset = 0+y1*0.5, yoffset = 0.5+x1*0.5)[1]),
+            .Dim = c(4L, 2L))
+          a <- terra::vect(g0, crs = "EPSG:4326", "polygons", atts = data.frame("Name" = paste0(gr,"d",x1,y1))) |>
+            terra::project("EPSG:2180")
+          if (dim(v)[1] == 0) {
+            v <- a
+          } else { v <- v+a }
+        }
+      }
+    }
+    v <- terra::project(v, "EPSG:2180") |>
+      sf::st_as_sf()
+    return(v)
+  }
+}
