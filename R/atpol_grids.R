@@ -82,39 +82,48 @@ atpol1k <- function(grid) {
   }
 }
 
-#' atpol_div_2 creates ATPOL grid divided by 2 and returns it as sf object. Useful for grids like 5 x 5 km, 500 x 500 m or 50 x 50 m. For details see \insertCite{vereyStandaryzacjaZapisuPodzialow2018;textual}{atpolR}
+#' atpol_div creates ATPOL grid divided by 2, 4 or 5 (based on divider parameter) and returns it as sf object. Useful for grids like 5 x 5 km (divider = 2), 250 x 250 m (divider = 4) or 20 x 20 m (divider = 5). For details see \insertCite{vereyStandaryzacjaZapisuPodzialow2018;textual}{atpolR}
 #' @importFrom terra vect project
 #' @importFrom sf st_as_sf
 #' @return Simple Feature (sf) grid of polygons for ATPOL grid divided by 2, ie. 5 km or 500 m, or 50 m
 #' @param grid any valid ATPOL grid like "BE" or "DC5128"
+#' @param divider divide by parameter: 2, 4, 5
 #' @export
-#' @usage atpol_div_2(grid)
+#' @usage atpol_div(grid, divider)
 #' @examples
-#' atpol_div_2("BE")
-#' atpol_div_2(grid = c("BE23", "DC5128"))
+#' atpol_div("BE", 2)
+#' atpol_div(grid = c("BE23", "DC5128"), divider = 4)
 #' @references
 #'     \insertAllCited{}
 #'
 #'
-atpol_div_2 <- function(grid) {
+atpol_div <- function(grid, divider) {
   g <- toupper({{grid}})
+  if(!divider %in% c(2,4,5)) {
+    stop("Please make sure divider is one of: 2, 4, 5")
+  }
   if (all(substr(g, 1, 2)[] %in% unique(substr(atpol10k()$Name, 1,2))) == FALSE) {
     stop("Please make sure all grids are proper ATPOL grid squares, like 'BE' or 'CE2345'")
   } else if (all(nchar(g[]) %% 2 == 0) == FALSE) {
     stop("Please make sure length of all grid fields is 2, 4, 6, 8, 10 or 12")
   } else {
     v <- terra::vect()
+
+    if(divider == 2 ) {subgrid <- "d"}
+    else if (divider == 4 ) {subgrid <- "c"}
+    else if (divider == 5 ) {subgrid <- "p"}
+
     for(gr in g) {
-      for(x1 in c(0:1)) {
+      for(x1 in c(0:(divider-1))) {
         print(paste0("Generating grid for ",gr,x1,"..."))
-        for(y1 in c(0:1)) {
+        for(y1 in c(0:(divider-1))) {
           g0 = structure(c(
-            grid_to_latlon(gr, xoffset = 0+y1*0.5, yoffset = 0+x1*0.5)[2],grid_to_latlon(gr, xoffset = 0.5+y1*0.5, yoffset = 0+x1*0.5)[2],
-            grid_to_latlon(gr, xoffset = 0.5+y1*0.5, yoffset = 0.5+x1*0.5)[2],grid_to_latlon(gr, xoffset = 0+y1*0.5, yoffset = 0.5+x1*0.5)[2],
-            grid_to_latlon(gr, xoffset = 0+y1*0.5, yoffset = 0+x1*0.5)[1],grid_to_latlon(gr, xoffset = 0.5+y1*0.5, yoffset = 0+x1*0.5)[1],
-            grid_to_latlon(gr, xoffset = 0.5+y1*0.5, yoffset = 0.5+x1*0.5)[1],grid_to_latlon(gr, xoffset = 0+y1*0.5, yoffset = 0.5+x1*0.5)[1]),
+            grid_to_latlon(gr, xoffset = 0+y1/divider, yoffset = 0+x1/divider)[2],grid_to_latlon(gr, xoffset = (1+y1)/divider, yoffset = 0+x1/divider)[2],
+            grid_to_latlon(gr, xoffset = (1+y1)/divider, yoffset = (1+x1)/divider)[2],grid_to_latlon(gr, xoffset = 0+y1/divider, yoffset = (1+x1)/divider)[2],
+            grid_to_latlon(gr, xoffset = 0+y1/divider, yoffset = 0+x1/divider)[1],grid_to_latlon(gr, xoffset = (1+y1)/divider, yoffset = 0+x1/divider)[1],
+            grid_to_latlon(gr, xoffset = (1+y1)/divider, yoffset = (1+x1)/divider)[1],grid_to_latlon(gr, xoffset = 0+y1/divider, yoffset = (1+x1)/divider)[1]),
             .Dim = c(4L, 2L))
-          a <- terra::vect(g0, crs = "EPSG:4326", "polygons", atts = data.frame("Name" = paste0(gr,"d",x1,y1))) |>
+          a <- terra::vect(g0, crs = "EPSG:4326", "polygons", atts = data.frame("Name" = paste0(gr,subgrid,x1,y1))) |>
             terra::project("EPSG:2180")
           if (dim(v)[1] == 0) {
             v <- a
