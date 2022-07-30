@@ -1,6 +1,8 @@
 ---
 title: "Introduction to atpolR"
-output: rmarkdown::html_vignette
+output: 
+ bookdown::html_document2:
+   base_format: rmarkdown::html_vignette
 vignette: >
   %\VignetteIndexEntry{Introduction to atpolR}
   %\VignetteEngine{knitr::rmarkdown}
@@ -15,19 +17,130 @@ knitr::opts_chunk$set(
 )
 ```
 
-## Introduction
-ATPOL grid was developed in late '60s in Institute of Botany at Jagiellonian University in Kraków. The backgrounds and methodology is described in [@zajacAtlasDistributionVascular1978; @zajacZalozeniaMetodyczneAtlasu1978]; for the first time the grid was used in "Distribution atlas of vascular plants in Poland". The extensive mathematical research and GIS implementation was done by Łukasz Komsta and Marek Verey [@komstaRewizjaMatematycznaSiatki2016; @vereyTeoretycznaAnalizaPraktyczne2017]. Algorithms provided by Komsta on [OpenATPOL](https://atpol.sourceforge.io/) are basis for implementation in `atpolR` package.
-
-## Basic usage
-
-* Prepare sample data based on published ATPOL data
-* Extend data
-* Plot it 
-
-## Functions description
 ```{r setup}
 library(atpolR)
 ```
+
+# Introduction
+ATPOL grid was developed in late '60s in Institute of Botany at Jagiellonian University in Kraków. The backgrounds and methodology is described in [@zajacAtlasDistributionVascular1978; @zajacZalozeniaMetodyczneAtlasu1978]; for the first time the grid was used in "Distribution atlas of vascular plants in Poland". The extensive mathematical research and GIS implementation was done by Łukasz Komsta and Marek Verey [@komstaRewizjaMatematycznaSiatki2016; @vereyTeoretycznaAnalizaPraktyczne2017]. Algorithms provided by Komsta on [OpenATPOL](https://atpol.sourceforge.io/) are basis for implementation in `atpolR` package.
+
+# Basic usage
+
+## Prepare sample data based on published ATPOL data
+
+In our example we will take a published distribution map of _Erigeron acris_ L. subsp. _acris_ published in  [@zajacAtlasRozmieszczeniaRoslin2019]. The image was scanned with resolution 150 dpi and georefenced using QGIS.
+
+```{r eriacr, fig.width = 7, fig.align='center', fig.cap = "_Erigeron acris_ L. subsp. _acris_ distribution taken from [@zajacAtlasRozmieszczeniaRoslin2019]"}
+par(mar = c(0, 0, 0, 0))
+tif <- system.file("extdata/eriacr.tif", package = "atpolR")
+r <- terra::rast(tif)
+terra::plotRGB(r)
+```
+
+There is hundreds of records. To get all of them we will use `check_atpol_square()` function, which takes as the arguments the POINT coordinates and a raster, and checks if the value of raster cell corresponding to some arbitrary buffer around the POINT equals zero. As the points are drawn in centers of ATPOL 10 km grid, we will check the values of atpol10k() centroids with an buffer with default radius of 1200 m. Depending of the quality of scan and precision of georeferencing, it might be useful to adjust a buffer a bit.
+
+Our raster usually consist of 3 layers, one for each R, G, B component. The difference between them are visible on Fig. \@ref(fig:rgbraster).
+
+```{r rgbraster, echo = FALSE, message=FALSE, warning=FALSE, results='hide', fig.width = 7, fig.align='center', fig.cap="R, G and B layers of a raster"}
+par(mar = c(0, 0, 0, 0))
+par(mfrow = c(1, 3))
+for (d in c(1:3)) {
+  terra::plot(r[[d]], legend = FALSE)
+}
+par(mfrow = c(1, 1))
+```
+
+Looking on scan shown on Fig. \@ref(fig:eriacr) we can see a lot of green and blue components. For further analysis we will take the first layer only
+
+```{r rraster, echo = FALSE, message=FALSE, warning=FALSE, results='hide', fig.width = 7, fig.asp = 0.7, fig.align='center'}
+terra::plot(r[[1]], axes = FALSE)
+```
+
+The values of the layer are continuous, from 0 to 255. For simplification we will classify the layer, just assigning two values: 0 and 1. We will create a reclassification matrix and apply `classify()` function form `terra` package.
+
+```{r echo = TRUE, message=FALSE, warning=FALSE, results='hide'}
+m <- c(0,120, 0,
+       120,255, 1)
+rclmat <- matrix(m, ncol=3, byrow=TRUE)
+rc <- terra::classify(r[[1]], rclmat, include.lowest = TRUE)
+```
+```{r reclasified, echo = FALSE, fig.width=7, fig.asp=0.7, fig.align='center', fig.cap="Reclasiffied raster with 0 (blasc) and 1 --- as white"}
+terra::plot(rc, axes = FALSE, col = c("black", "white"), legend = FALSE)
+```
+
+Having the raster prepared we can apply the `check_atpol_square()` function for all 10k grids:
+
+```{r eriacr-reverse, echo=TRUE}
+eriacr <- atpol10k()|>
+  dplyr::mutate(a = mapply(function(x) check_atpol_square(x, rc), centroid)) |>
+  dplyr::filter(a == "YES")
+```
+
+Let's display the results:
+```{r echo=TRUE, message=FALSE, warning=FALSE}
+eriacr
+```
+There is 709 observations (grids) in data set.
+
+Let's have a closer look on BE square:
+
+```{r BE, echo=TRUE, fig.width=7, fig.asp=0.7, fig.align='center', message=FALSE, warning=FALSE}
+BE <- atpol100k() |>
+  subset(Name == "BE") |>
+  sf::st_bbox()
+par(pty = "s")
+plot(NA, type = "n", xlim = c(BE[1], BE[3]), ylim = c(BE[2], BE[4]), axes = FALSE, xlab = "", ylab = "")
+terra::plot(rc, legend = FALSE, add = TRUE)
+
+atpol100k() |>
+  subset(Name == "BE") |>
+  sf::st_cast("LINESTRING") |>
+  terra::plot(add = TRUE, col = "blue", lwd = 1.2)
+
+eriacr |>
+  subset(substr(Name, 1, 2) == "BE") |>
+  sf::st_set_geometry("centroid") |>
+  terra::plot(pch = 16, cex = 1.2, col = "blue", add = TRUE)
+```
+
+So far, so god. Our data set corresponds to published data. In next step we will extend it based on observations.
+
+## Extend the data
+
+Lets assume, we want to extend the data set with own observations. If we already know the grid name, we can simply filter out the grid created by `atpol10k()` function by the Name. If we don't have the grid, however we have coordinates, we can use `latlon_to_grid()` function. In below example we are using both methods:
+
+```{r myData, echo = TRUE, warning=FALSE, fig.width=7, fig.asp=0.7, fig.align='center', fig.cap="Data set extended with our observations in grids BE48 and BE68, shown in red"}
+myData <- atpol10k() |>
+  dplyr::filter(Name %in% c("BE68", 
+                            latlon_to_grid(51.13619, 16.95069, 4))) |>
+  dplyr::mutate(a = "myData")
+
+BE <- atpol100k() |>
+  subset(Name == "BE") |>
+  sf::st_bbox()
+par(pty = "s")
+plot(NA, type = "n", xlim = c(BE[1], BE[3]), ylim = c(BE[2], BE[4]), axes = FALSE, xlab = "", ylab = "")
+terra::plot(rc, legend = FALSE, add = TRUE)
+
+atpol100k() |>
+  subset(Name == "BE") |>
+  sf::st_cast("LINESTRING") |>
+  terra::plot(add = TRUE, col = "blue", lwd = 1.2)
+
+eriacr |>
+  subset(substr(Name, 1, 2) == "BE") |>
+  sf::st_set_geometry("centroid") |>
+  terra::plot(pch = 16, cex = 1.2, col = "blue", add = TRUE)
+
+myData |>
+  sf::st_set_geometry("centroid") |>
+  terra::plot(pch = 16, cex = 1.8, col = "red", add = TRUE)
+```  
+
+## Plot it 
+
+# Functions description
+
 Two basic functions `latlon_to_grid()` and `grid_to_latlon()` allows to quickly convert geographical coordinates (given in WGS 84 latitude and longitude degrees) to ATPOL grid and from grid to coordinates respectively.
 
 ```{r}
@@ -86,4 +199,4 @@ plot(atpol100k()$geometry)
 plot(b, col = "red", add = TRUE)
 ```
 
-## Bibliography
+# Bibliography
