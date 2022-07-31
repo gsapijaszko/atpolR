@@ -37,11 +37,7 @@ r <- terra::rast(tif)
 terra::plotRGB(r)
 ```
 
-<<<<<<< HEAD
 There is hundreds of records. To get all of them we will use `check_atpol_square()` function, which takes as the arguments the POINT coordinates and a raster, and checks if the value of raster cell corresponding to some arbitrary buffer around the POINT equals zero. As the points are drawn in centers of ATPOL 10 km grid, we will check the values of atpol10k() centroids with an buffer with default radius of 1200 m. Depending of the quality of scan and precision of georeferencing, it might be useful to adjust a buffer a bit.
-=======
-There is hundreds of records. To get all of them we will use `check_atpol_square()` function, which takes as the arguments the POINT coordinates and a raster, and checks if the value of raster cell corresponding to POINT equals zero. As the points are drawn in centers of ATPOL 10 km grid, we will check the values of atpol10k() centroids with an buffer, default with radius of 1200 m. Depending of the quality of scan and precission of georefencing, it might be useful to adjust a buffer a bit.
->>>>>>> 9b08d37958c8b93ed6812e956029b88eeafea9ca
 
 Our raster usually consist of 3 layers, one for each R, G, B component. The difference between them are visible on Fig. \@ref(fig:rgbraster).
 
@@ -49,18 +45,13 @@ Our raster usually consist of 3 layers, one for each R, G, B component. The diff
 par(mar = c(0, 0, 0, 0))
 par(mfrow = c(1, 3))
 for (d in c(1:3)) {
-<<<<<<< HEAD
   terra::plot(r[[d]], legend = FALSE)
-=======
-  terra::plot(r[[d]], legend = TRUE)
->>>>>>> 9b08d37958c8b93ed6812e956029b88eeafea9ca
 }
 par(mfrow = c(1, 1))
 ```
 
 Looking on scan shown on Fig. \@ref(fig:eriacr) we can see a lot of green and blue components. For further analysis we will take the first layer only
 
-<<<<<<< HEAD
 ```{r rraster, echo = FALSE, message=FALSE, warning=FALSE, results='hide', fig.width = 7, fig.asp = 0.7, fig.align='center'}
 terra::plot(r[[1]], axes = FALSE)
 ```
@@ -74,37 +65,17 @@ rclmat <- matrix(m, ncol=3, byrow=TRUE)
 rc <- terra::classify(r[[1]], rclmat, include.lowest = TRUE)
 ```
 ```{r reclasified, echo = FALSE, fig.width=7, fig.asp=0.7, fig.align='center', fig.cap="Reclasiffied raster with 0 (blasc) and 1 --- as white"}
-=======
-```{r rraster, echo = TRUE, message=FALSE, warning=FALSE, results='hide', fig.width = 7, fig.asp = 0.7, fig.align='center'}
-par(mar = c(0, 0, 0, 0))
-terra::plot(r[[1]], axes = FALSE)
-```
-
-Let's classify the layer, just assigning two values, 0 and 1
-
-```{r echo = TRUE, message=FALSE, warning=FALSE, results='hide', fig.width = 7, fig.height = 7, fig.align='center'}
-m <- c(0,120, 0,
-       120,255, 1)
-rclmat <- matrix(m, ncol=3, byrow=TRUE)
-
-rc <- terra::classify(r[[1]], rclmat, include.lowest = TRUE)
->>>>>>> 9b08d37958c8b93ed6812e956029b88eeafea9ca
 terra::plot(rc, axes = FALSE, col = c("black", "white"), legend = FALSE)
 ```
 
 Having the raster prepared we can apply the `check_atpol_square()` function for all 10k grids:
 
-<<<<<<< HEAD
 ```{r eriacr-reverse, echo=TRUE}
-=======
-```{r eriacr-reverse}
->>>>>>> 9b08d37958c8b93ed6812e956029b88eeafea9ca
 eriacr <- atpol10k()|>
   dplyr::mutate(a = mapply(function(x) check_atpol_square(x, rc), centroid)) |>
   dplyr::filter(a == "YES")
 ```
 
-<<<<<<< HEAD
 Let's display the results:
 ```{r echo=TRUE, message=FALSE, warning=FALSE}
 eriacr
@@ -115,31 +86,18 @@ Let's have a closer look on BE square:
 
 ```{r BE, echo=TRUE, fig.width=7, fig.asp=0.7, fig.align='center', message=FALSE, warning=FALSE}
 BE <- atpol100k() |>
-=======
-There is 709 observations (points) in data set.
-
-Let's check BE square:
-
-```{r BE, fig.width =7, fig.height = 7, fig.align='center'}
-BE <- atpolR::atpol100k() |>
->>>>>>> 9b08d37958c8b93ed6812e956029b88eeafea9ca
   subset(Name == "BE") |>
   sf::st_bbox()
 par(pty = "s")
 plot(NA, type = "n", xlim = c(BE[1], BE[3]), ylim = c(BE[2], BE[4]), axes = FALSE, xlab = "", ylab = "")
 terra::plot(rc, legend = FALSE, add = TRUE)
-<<<<<<< HEAD
 
 atpol100k() |>
-=======
-atpolR::atpol100k() |>
->>>>>>> 9b08d37958c8b93ed6812e956029b88eeafea9ca
   subset(Name == "BE") |>
   sf::st_cast("LINESTRING") |>
   terra::plot(add = TRUE, col = "blue", lwd = 1.2)
 
 eriacr |>
-<<<<<<< HEAD
   subset(substr(Name, 1, 2) == "BE") |>
   sf::st_set_geometry("centroid") |>
   terra::plot(pch = 16, cex = 1.2, col = "blue", add = TRUE)
@@ -158,41 +116,17 @@ myData <- atpol10k() |>
   dplyr::mutate(a = "myData")
 
 BE <- atpol100k() |>
-=======
-  subset(substr(Name, 1, 2) == "BE")
-eriacr$buffer <- sf::st_buffer(eriacr$centroid, 1500)
-terra::plot(eriacr$buffer, col = "blue", add = TRUE)
-```
-
-## Extend data
-
-Lets assume, we want to extend the data set with own observations from . We can simply filter out the grid created by `atpol10k()` function using either Name or giving the coordinates within `latlon_to_grid()`:
-
-```{r myData, fig.height = 7}
-myData <- atpol10k() |>
-  dplyr::filter(Name %in% c("BE68", 
-                            latlon_to_grid(51.13619444, 16.95069444, 4))) |>
-  dplyr::mutate(a = "myData")
-
-BE <- atpolR::atpol100k() |>
->>>>>>> 9b08d37958c8b93ed6812e956029b88eeafea9ca
   subset(Name == "BE") |>
   sf::st_bbox()
 par(pty = "s")
 plot(NA, type = "n", xlim = c(BE[1], BE[3]), ylim = c(BE[2], BE[4]), axes = FALSE, xlab = "", ylab = "")
-<<<<<<< HEAD
 terra::plot(rc, legend = FALSE, add = TRUE)
 
 atpol100k() |>
-=======
-terra::plot(rc, add = TRUE)
-atpolR::atpol100k() |>
->>>>>>> 9b08d37958c8b93ed6812e956029b88eeafea9ca
   subset(Name == "BE") |>
   sf::st_cast("LINESTRING") |>
   terra::plot(add = TRUE, col = "blue", lwd = 1.2)
 
-<<<<<<< HEAD
 eriacr |>
   subset(substr(Name, 1, 2) == "BE") |>
   sf::st_set_geometry("centroid") |>
@@ -201,16 +135,6 @@ eriacr |>
 myData |>
   sf::st_set_geometry("centroid") |>
   terra::plot(pch = 16, cex = 1.8, col = "red", add = TRUE)
-=======
-be <- eriacr |>
-  subset(substr(Name, 1, 2) == "BE")
-be$buffer <- sf::st_buffer(be$centroid, 1500)
-terra::plot(be$buffer, col = "blue", add = TRUE)
-
-pl <- myData |>
-  dplyr::mutate(buffer = sf::st_buffer(.data$centroid, 1500))
-terra::plot(pl$buffer, col = "red", add = TRUE)
->>>>>>> 9b08d37958c8b93ed6812e956029b88eeafea9ca
 ```  
 
 ## Plot it 
