@@ -18,7 +18,7 @@ knitr::opts_chunk$set(
 ```
 
 # Introduction
-ATPOL grid was developed in late '60s in Institute of Botany at Jagiellonian University in Kraków. The backgrounds and methodology is described in [@zajacZalozeniaMetodyczneAtlasu1978; @zajacAtlasDistributionVascular1978]. The extensive mathematical research and GIS implementation was done by Łukasz Komsta and Marek Verey [@komstaRewizjaMatematycznaSiatki2016; @vereyTeoretycznaAnalizaPraktyczne2017]. Algorithms provided by Komsta on [OpenATPOL](https://atpol.sourceforge.io/) are basis for implementation in `atpolR` package.
+ATPOL grid was developed in late '60s in Institute of Botany at Jagiellonian University in Kraków. The backgrounds and methodology is described in [@zajacZalozeniaMetodyczneAtlasu1978; @zajacAtlasDistributionVascular1978]. The extensive mathematical research and GIS implementation was done by Łukasz Komsta and Marek Verey [@komstaRewizjaMatematycznaSiatki2016; @vereyTeoretycznaAnalizaPraktyczne2017]. Algorithms provided by Komsta on [OpenATPOL](https://atpol.sourceforge.io/) are basis for implementation in **atpolR** package.
 
 # Basic usage
 
@@ -57,7 +57,7 @@ Looking on scan shown on Fig. \@ref(fig:eriacr) we can see a lot of green and bl
 terra::plot(r[[1]], col = colorspace::sequential_hcl(255, "Reds", rev = TRUE), axes = FALSE)
 ```
 
-The values of the layer are continuous, from 0 to 255. For simplification and easier analysis we will classify the layer, just assigning two values: 0 and 1. We will create a reclassification matrix `rclmat` and apply `classify()` function form `terra` package.
+The values of the layer are continuous, from 0 to 255. For simplification and easier analysis we will classify the layer, just assigning two values: 0 and 1. We will create a reclassification matrix `rclmat` and apply `classify()` function form **terra** package.
 
 ```{r echo = TRUE, message=FALSE, warning=FALSE, results='hide'}
 m <- c(0,120, 0,
@@ -153,7 +153,7 @@ myData |>
 
 ## Plot it
 
-`atpolR` package provide a function `plot_points_on_atpol()` which can be used to visualise the data set. Let's merge our two data sets (`eriacr` and `myData`) and plot them together. For removing any duplicates we can use `unique.data.frame()` function from base R, or `distinct(Name)` from `dplyr` package.
+**atpolR** package provide a function `plot_points_on_atpol()` which can be used to visualise the data set. Let's merge our two data sets (`eriacr` and `myData`) and plot them together. For removing any duplicates we can use `unique.data.frame()` function from base R, or `distinct(Name)` from **dplyr** package.
 
 ```{r}
 eriacr <- eriacr |>
