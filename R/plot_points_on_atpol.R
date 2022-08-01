@@ -73,10 +73,11 @@
 #' @param filename name of file which will be written to disc
 #' @param main image title, usually a species name
 #' @param colors vector of colors to be used as a background, default internal .myCols
+#' @param cex size of the points, default 0.9
 #' @export
-#' @usage plotPoitsOnAtpol(myData, outputType, filename, main, colors)
+#' @usage plotPoitsOnAtpol(myData, outputType, filename, main, colors, cex)
 
-plotPoitsOnAtpol <- function(myData = "", outputType = "", filename = "", main = "", colors = .myCols) {
+plotPoitsOnAtpol <- function(myData = "", outputType = "", filename = "", main = "", colors = .myCols, cex = 0.9) {
   if(nzchar({{filename}}) == TRUE) {
     if(outputType == "svg") {
       grDevices::svg(file=paste0({{filename}}, ".svg"),width=12,height=12)

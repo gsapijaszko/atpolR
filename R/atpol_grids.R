@@ -85,7 +85,7 @@ atpol1k <- function(grid) {
 #' atpol_div creates ATPOL grid divided by 2, 4 or 5 (based on divider parameter) and returns it as sf object. Useful for grids like 5 x 5 km (divider = 2), 250 x 250 m (divider = 4) or 20 x 20 m (divider = 5). For details see \insertCite{vereyStandaryzacjaZapisuPodzialow2018;textual}{atpolR}
 #' @importFrom terra vect project
 #' @importFrom sf st_as_sf
-#' @return Simple Feature (sf) grid of polygons for ATPOL grid divided by 2, ie. 5 km or 500 m, or 50 m
+#' @return Simple Feature (sf) grid of polygons for ATPOL grid divided by 2, 4 or 5
 #' @param grid any valid ATPOL grid like "BE" or "DC5128"
 #' @param divider divide by parameter: 2, 4, 5
 #' @export
