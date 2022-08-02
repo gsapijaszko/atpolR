@@ -69,15 +69,17 @@
 #' @importFrom grDevices dev.off png svg
 #' @importFrom terra plot
 #' @param myData SimpleFeature data frame with point geometry, usually centroid of ATPOL grid square
-#' @param outputType image output type, either "svg" or "png"
-#' @param filename name of file which will be written to disc
+#' @param outputType image output type, either "svg" or "png"; if not specified a standard output device is used (screen)
+#' @param filename name of the output file
 #' @param main image title, usually a species name
 #' @param colors vector of colors to be used as a background, default internal .myCols
 #' @param cex size of the points, default 0.9
+#' @param col color of the points, default black
+#' @param pch shape of the point, default 16 - filled dot
 #' @export
-#' @usage plotPoitsOnAtpol(myData, outputType, filename, main, colors, cex)
+#' @usage plotPoitsOnAtpol(myData, outputType, filename, main, colors, cex, col, pch)
 
-plotPoitsOnAtpol <- function(myData = "", outputType = "", filename = "", main = "", colors = .myCols, cex = 0.9) {
+plotPoitsOnAtpol <- function(myData = "", outputType = "", filename = "", main = "", colors = .myCols, cex = 0.9, col = "black", pch = 16) {
   if(nzchar({{filename}}) == TRUE) {
     if(outputType == "svg") {
       grDevices::svg(file=paste0({{filename}}, ".svg"),width=12,height=12)
@@ -89,7 +91,7 @@ plotPoitsOnAtpol <- function(myData = "", outputType = "", filename = "", main =
     }
   }
   .atpolBackground(main = {{main}}, colors = {{colors}})
-  terra::plot({{myData}}, pch = 16, cex = ifelse(outputType == "svg", 1.5, 0.9), add = TRUE, col = "black", lty = 1)
+  terra::plot({{myData}}, pch = {{pch}}, cex = ifelse(outputType == "svg", 1.5, {{cex}}), add = TRUE, col = {{col}}, lty = 1)
   if(nzchar({{filename}}) == TRUE && nzchar({{outputType}}) == TRUE) {
     grDevices::dev.off()
   }

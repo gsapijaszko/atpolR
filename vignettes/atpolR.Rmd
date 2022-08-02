@@ -106,11 +106,13 @@ eriacr |>
   terra::plot(pch = 16, cex = 1.2, col = "blue", add = TRUE)
 ```
 
-So far, so god. Our data set corresponds to published data. In next step we will extend it based on observations.
+So far, so god. Our data set corresponds to published data. In next step we will extend it with our own observations.
+
+Please note, that `check_atpol_square()` function can give false positive results in case of noisy scans. Also it doesn't recognize the different shapes used in original publications for different 
 
 ## Extend the data
 
-Let's assume, we want to extend the data set with own observations. If we already know the grid name, we can simply filter out the grid created by `atpol10k()` function by the Name. If we don't have the grid, however we have coordinates, we can use `latlon_to_grid()` function. In below example we are using both methods:
+Let's assume, we want to extend the data set by adding own observations. If we already know the grid name, we can simply filter out the grid created by `atpol10k()` function by the Name. If we don't have the grid, however we have coordinates, we can use `latlon_to_grid()` function. In below example we are using both methods:
 
 ```{r myData, echo = TRUE, warning=FALSE}
 myData <- atpol10k() |>
@@ -153,7 +155,7 @@ myData |>
 
 ## Plot it
 
-**atpolR** package provide a function `plot_points_on_atpol()` which can be used to visualise the data set. Let's merge our two data sets (`eriacr` and `myData`) and plot them together. For removing any duplicates we can use `unique.data.frame()` function from base R, or `distinct(Name)` from **dplyr** package.
+**atpolR** package provides a function `plot_points_on_atpol()` which can be used to visualize the data set. Let's merge our two data sets (`eriacr` and `myData`) and plot them together. For removing any duplicates we can use `unique.data.frame()` function from base R, or `distinct(Name)` from **dplyr** package.
 
 ```{r}
 eriacr <- eriacr |>

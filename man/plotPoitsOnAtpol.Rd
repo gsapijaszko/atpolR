@@ -4,7 +4,7 @@
 \alias{plotPoitsOnAtpol}
 \title{plotPoitsOnAtpol() plots the observations on ATPOL 10km x 10km grid}
 \usage{
-plotPoitsOnAtpol(myData, outputType, filename, main, colors)
+plotPoitsOnAtpol(myData, outputType, filename, main, colors, cex, col, pch)
 }
 \arguments{
 \item{myData}{SimpleFeature data frame with point geometry, usually centroid of ATPOL grid square}
@@ -16,6 +16,12 @@ plotPoitsOnAtpol(myData, outputType, filename, main, colors)
 \item{main}{image title, usually a species name}
 
 \item{colors}{vector of colors to be used as a background, default internal .myCols}
+
+\item{cex}{size of the points, default 0.9}
+
+\item{col}{color of the points, default black}
+
+\item{pch}{shape of the point, default 16 - filled dot}
 }
 \description{
 plotPoitsOnAtpol() plots the observations on ATPOL 10km x 10km grid
