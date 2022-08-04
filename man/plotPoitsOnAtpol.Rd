@@ -9,9 +9,9 @@ plotPoitsOnAtpol(myData, outputType, filename, main, colors, cex, col, pch)
 \arguments{
 \item{myData}{SimpleFeature data frame with point geometry, usually centroid of ATPOL grid square}
 
-\item{outputType}{image output type, either "svg" or "png"}
+\item{outputType}{image output type, either "svg" or "png"; if not specified a standard output device is used (screen)}
 
-\item{filename}{name of file which will be written to disc}
+\item{filename}{name of the output file}
 
 \item{main}{image title, usually a species name}
 

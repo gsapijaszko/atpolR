@@ -1,4 +1,4 @@
 # atpolR: 0.1.0
 
 ## News
-  * First relase
+  * First release
