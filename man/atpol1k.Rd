@@ -16,7 +16,9 @@ Simple Feature (sf) grid of polygons for 1km x 1km ATPOL grid
 atpol1k creates ATPOL grid 1km x 1km and returns it as sf object
 }
 \examples{
+\dontrun{
 atpol1k("BE23")
 atpol1k(grid = c("BE23", "DE45"))
+}
 
 }
