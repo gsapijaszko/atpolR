@@ -48,8 +48,10 @@ atpol100k <- function() {
 #' @param grid any valid ATPOL 10km grid like "BE23" or "DC58"
 #' @export
 #' @examples
+#' \donotrun{
 #' atpol1k("BE23")
 #' atpol1k(grid = c("BE23", "DE45"))
+#' }
 #'
 atpol1k <- function(grid) {
   g <- toupper({{grid}})
@@ -91,8 +93,10 @@ atpol1k <- function(grid) {
 #' @export
 #' @usage atpol_div(grid, divider)
 #' @examples
+#' \donotrun{
 #' atpol_div("BE", 2)
 #' atpol_div(grid = c("BE23", "DC5128"), divider = 4)
+#' }
 #' @references
 #'     \insertAllCited{}
 #'
