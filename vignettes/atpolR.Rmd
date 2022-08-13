@@ -14,6 +14,8 @@ knitr::opts_chunk$set(
   collapse = TRUE,
   comment = "#>"
 )
+
+oldpar <- par(no.readonly = TRUE)
 ```
 
 # Introduction
@@ -233,5 +235,10 @@ b <- boundaryPL()
 plot(atpol100k()$geometry)
 plot(b, col = "red", add = TRUE)
 ```
+
+```{r, include = FALSE}
+par(oldpar)
+```
+
 
 # Bibliography

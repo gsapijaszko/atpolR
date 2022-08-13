@@ -23,6 +23,9 @@ plotPoitsOnAtpol(myData, outputType, filename, main, colors, cex, col, pch)
 
 \item{pch}{shape of the point, default 16 - filled dot}
 }
+\value{
+choreograph map of species distribution in Poland.
+}
 \description{
 plotPoitsOnAtpol() plots the observations on ATPOL 10km x 10km grid
 }

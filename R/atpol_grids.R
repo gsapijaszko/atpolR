@@ -48,10 +48,7 @@ atpol100k <- function() {
 #' @param grid any valid ATPOL 10km grid like "BE23" or "DC58"
 #' @export
 #' @examples
-#' \dontrun{
 #' atpol1k("BE23")
-#' atpol1k(grid = c("BE23", "DE45"))
-#' }
 #'
 atpol1k <- function(grid) {
   g <- toupper({{grid}})
@@ -62,7 +59,7 @@ atpol1k <- function(grid) {
     v <- terra::vect()
     for(gr in g) {
       for(x1 in c(0:9)) {
-        print(paste0("Generating grid for ",gr,x1,"..."))
+        message(paste0("Generating grid for ",gr,x1,"..."))
         for(y1 in c(0:9)) {
           g0 = structure(c(
             grid_to_latlon(paste0(gr,x1,y1), 0, 0)[2],grid_to_latlon(paste0(gr,x1,y1), 0, 1)[2],
@@ -93,7 +90,7 @@ atpol1k <- function(grid) {
 #' @export
 #' @usage atpol_div(grid, divider)
 #' @examples
-#' \dontrun{
+#' \donttest{
 #' atpol_div("BE", 2)
 #' atpol_div(grid = c("BE23", "DC5128"), divider = 4)
 #' }
@@ -119,7 +116,7 @@ atpol_div <- function(grid, divider) {
 
     for(gr in g) {
       for(x1 in c(0:(divider-1))) {
-        print(paste0("Generating grid for ",gr,x1,"..."))
+        message(paste0("Generating grid for ",gr,x1,"..."))
         for(y1 in c(0:(divider-1))) {
           g0 = structure(c(
             grid_to_latlon(gr, xoffset = 0+y1/divider, yoffset = 0+x1/divider)[2],grid_to_latlon(gr, xoffset = (1+y1)/divider, yoffset = 0+x1/divider)[2],

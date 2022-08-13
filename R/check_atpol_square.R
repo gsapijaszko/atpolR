@@ -18,8 +18,8 @@
 #'
 check_atpol_square <- function(centroid, raster, distance = 1200) {
   if (!grepl("ID\\[\"EPSG\",2180\\]\\]",terra::crs({{raster}}))) {
-    print("Raster has to be in EPSG:2180 projection")
-    print("Try terra::project(raster, \"EPSG:2180\")")
+    warning("Raster has to be in EPSG:2180 projection")
+    warning("Try terra::project(raster, \"EPSG:2180\")")
     stop()
   }
   c <- sf::st_buffer({{centroid}}, dist = {{distance}})

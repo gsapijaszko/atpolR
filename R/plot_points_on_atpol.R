@@ -76,10 +76,12 @@
 #' @param cex size of the points, default 0.9
 #' @param col color of the points, default black
 #' @param pch shape of the point, default 16 - filled dot
+#' @return choreograph map of species distribution in Poland.
 #' @export
 #' @usage plotPoitsOnAtpol(myData, outputType, filename, main, colors, cex, col, pch)
 
 plotPoitsOnAtpol <- function(myData = "", outputType = "", filename = "", main = "", colors = .myCols, cex = 0.9, col = "black", pch = 16) {
+  oldpar <- par(no.readonly = TRUE)
   if(nzchar({{filename}}) == TRUE) {
     if(outputType == "svg") {
       grDevices::svg(file=paste0({{filename}}, ".svg"),width=12,height=12)
@@ -87,7 +89,7 @@ plotPoitsOnAtpol <- function(myData = "", outputType = "", filename = "", main =
       grDevices::png(file=paste0({{filename}}, ".png"), width=1600, height=1600, res=240)
     }
     else {
-      print("Please provide an outputType (svg or png).")
+      warning("Please provide an outputType (svg or png).")
     }
   }
   .atpolBackground(main = {{main}}, colors = {{colors}})
@@ -95,4 +97,5 @@ plotPoitsOnAtpol <- function(myData = "", outputType = "", filename = "", main =
   if(nzchar({{filename}}) == TRUE && nzchar({{outputType}}) == TRUE) {
     grDevices::dev.off()
   }
+  on.exit(par(oldpar))
 }

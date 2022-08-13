@@ -14,6 +14,9 @@ grid_to_latlon(grid, xoffset = 0.5, yoffset = 0.5)
 
 \item{yoffset}{An offset in Y, where 0 is for top, and 1 for bottom side of the grid. The default value is 0.5, which corresponds to middle of the grid.}
 }
+\value{
+latitude and longitude of ATPOL grid (default centroid) as pair of numerics
+}
 \description{
 grid_to_latlon converts the ATPOL grid to latitude and longitude.
 With \code{xoffset = 0} and \code{yoffset = 0} parameters it returns coordinates of the upper left corner of the grid.

@@ -93,11 +93,13 @@
 #' @param grid An ATPOL grid, ex. "GF2345".
 #' @param xoffset An offset in X, where 0 is for left, and 1 for right side of the grid. The default value is 0.5, which corresponds to middle of the grid.
 #' @param yoffset An offset in Y, where 0 is for top, and 1 for bottom side of the grid. The default value is 0.5, which corresponds to middle of the grid.
+#' @return latitude and longitude of ATPOL grid (default centroid) as pair of numerics
 #' @examples
 #' grid_to_latlon("BE21")
 #' grid_to_latlon("BE21", 0, 0)
 #' @references \url{https://atpol.sourceforge.io/}
 #' @export
+#'
 grid_to_latlon <- function(grid, xoffset=0.5, yoffset=0.5) {
   xy = .grid_to_xy(grid, xoffset, yoffset)
   latlon = .xy_to_latlon(xy[1], xy[2]);
