@@ -27,6 +27,7 @@
 .atpolBackground <- function(main = "", colors = .myCols){
   .bbox <- sf::st_bbox(atpol10k())
   cr <- terra::rast(system.file("extdata/cr.tif", package = "atpolR"))
+  oldpar <- par(no.readonly = TRUE)
   par(pty = "s")
   terra::plot(cr, type="classes",
               col = colors,
@@ -41,7 +42,7 @@
   w <- terra::rast(system.file("extdata/water.tif", package = "atpolR"))
   terra::plot(w, add = TRUE, col = "#4476C3", legend = FALSE, axes = FALSE)
 
-  # kwadraty
+  #
   a100k <- atpol100k()
   terra::plot(a100k$geometry, lwd = 0.5, add= TRUE)
   terra::plot(boundaryPL(), col = "darkred", add = TRUE)
@@ -62,6 +63,8 @@
   }
   axis(1, at = c(d[1:7]), labels = c("A", "B", "C", "D", "E", "F", "G"), las = 1, lwd = 0, lwd.ticks = 0, line = -2)
   axis(3, at = c(d[1:7]), labels = c("A", "B", "C", "D", "E", "F", "G"), las = 1, lwd = 0, lwd.ticks = 0, line = -2)
+  #
+  on.exit(par(oldpar))
 }
 
 #' plotPoitsOnAtpol() plots the observations on ATPOL 10km x 10km grid

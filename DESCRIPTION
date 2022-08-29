@@ -21,7 +21,7 @@ Imports:
 	stringr,
 	terra
 RdMacros: Rdpack
-RoxygenNote: 7.2.0
+RoxygenNote: 7.2.1
 URL: https://github.com/gsapijaszko/atpolR
 BugReports: https://github.com/gsapijaszko/atpolR/issues
 Suggests: 

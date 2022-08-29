@@ -1,34 +1,25 @@
-## R CMD check results
+On Tue, 2022-08-16 at 11:12 +0200, Beni Altmann wrote:
 
-Duration: 1m 35.7s
+Thanks Benjamin,
 
-0 errors ✔ | 0 warnings ✔ | 0 notes ✔
-
-R CMD check succeeded
-
-On Sun, 2022-07-24 at 23:43 +0200, Uwe Ligges wrote:
-> Thanks, we see:
+> Thanks,
 > 
->    License components with restrictions and base license permitting
-> such:
->      GPL-3 + file LICENSE
->    File 'LICENSE':
->                          GNU GENERAL PUBLIC LICENSE
->                             Version 3, 29 June 2007
-> 
->       Copyright (C) 2007 Free Software Foundation, Inc.
-> <https://fsf.org/>
->       Everyone is  ..
-> 
-> Please omit "+ file LICENSE" and the file itself which is part of R 
-> anyway. It is only used to specify additional restrictions to the GPL
-> such as attribution requirements.
-> 
-> 
-> Pls resubmit after the CRAN vacations.
+> I think you missed one change of par() in R/plot_points_on_atpol.R
+> line 30.
 
-License file removed.
+Yeah, however it's internal function, called by other with oldpar restored. Nevertheless, corrected.
 
+> There is also still a print() in R/atpol_grids.R line 17 and one in 
+> R/miscRscript.r line 7.
+
+Fixed.
+
+> Please fix and resubmit.
+> 
+> Best,
+> Benjamin Altmann
+
+=======
 
 On Fri, 2022-08-12 at 14:30 +0200, Victoria Wimmer wrote:
 
@@ -95,3 +86,36 @@ Added oldpar/definition and recall in vignette as well.
 Thanks for checking and hints.
 Regards,
 Grzegorz
+
+=====
+On Sun, 2022-07-24 at 23:43 +0200, Uwe Ligges wrote:
+> Thanks, we see:
+> 
+>    License components with restrictions and base license permitting
+> such:
+>      GPL-3 + file LICENSE
+>    File 'LICENSE':
+>                          GNU GENERAL PUBLIC LICENSE
+>                             Version 3, 29 June 2007
+> 
+>       Copyright (C) 2007 Free Software Foundation, Inc.
+> <https://fsf.org/>
+>       Everyone is  ..
+> 
+> Please omit "+ file LICENSE" and the file itself which is part of R 
+> anyway. It is only used to specify additional restrictions to the GPL
+> such as attribution requirements.
+> 
+> 
+> Pls resubmit after the CRAN vacations.
+
+License file removed.
+
+=======
+## R CMD check results
+
+Duration: 1m 35.7s
+
+0 errors ✔ | 0 warnings ✔ | 0 notes ✔
+
+R CMD check succeeded

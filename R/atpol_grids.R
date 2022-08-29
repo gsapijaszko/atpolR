@@ -14,7 +14,7 @@ utils::globalVariables(c("Name", ".data"))
     return(v)
   }
   else {
-    print("No extdata/atpol10k.Rds data found.")
+    warning("No extdata/atpol10k.Rds data found.")
   }
 }
 
