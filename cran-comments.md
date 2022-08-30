@@ -1,3 +1,15 @@
+
+On Tue, 2022-08-30 at 16:59 +0200, Victoria Wimmer wrote:
+> Thanks,
+> 
+> You need to call on.exit() directly after oldpar <- par(no.readonly =
+> TRUE) in code line 30 in R/plot_points_on_atpol.R:
+
+Thanks, fixed.
+
+Regards,
+Grzegorz
+===
 On Tue, 2022-08-16 at 11:12 +0200, Beni Altmann wrote:
 
 Thanks Benjamin,

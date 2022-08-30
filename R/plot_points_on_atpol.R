@@ -28,6 +28,7 @@
   .bbox <- sf::st_bbox(atpol10k())
   cr <- terra::rast(system.file("extdata/cr.tif", package = "atpolR"))
   oldpar <- par(no.readonly = TRUE)
+  on.exit(par(oldpar))
   par(pty = "s")
   terra::plot(cr, type="classes",
               col = colors,
@@ -63,8 +64,6 @@
   }
   axis(1, at = c(d[1:7]), labels = c("A", "B", "C", "D", "E", "F", "G"), las = 1, lwd = 0, lwd.ticks = 0, line = -2)
   axis(3, at = c(d[1:7]), labels = c("A", "B", "C", "D", "E", "F", "G"), las = 1, lwd = 0, lwd.ticks = 0, line = -2)
-  #
-  on.exit(par(oldpar))
 }
 
 #' plotPoitsOnAtpol() plots the observations on ATPOL 10km x 10km grid
@@ -85,6 +84,7 @@
 
 plotPoitsOnAtpol <- function(myData = "", outputType = "", filename = "", main = "", colors = .myCols, cex = 0.9, col = "black", pch = 16) {
   oldpar <- par(no.readonly = TRUE)
+  on.exit(par(oldpar))
   if(nzchar({{filename}}) == TRUE) {
     if(outputType == "svg") {
       grDevices::svg(file=paste0({{filename}}, ".svg"),width=12,height=12)
@@ -100,5 +100,4 @@ plotPoitsOnAtpol <- function(myData = "", outputType = "", filename = "", main =
   if(nzchar({{filename}}) == TRUE && nzchar({{outputType}}) == TRUE) {
     grDevices::dev.off()
   }
-  on.exit(par(oldpar))
 }
