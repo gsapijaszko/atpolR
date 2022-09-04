@@ -1,4 +1,11 @@
+── R CMD check results ─────────────────────────────────────────────────── atpolR 0.1.1 ────
+Duration: 2m 30.6s
 
+0 errors ✔ | 0 warnings ✔ | 0 notes ✔
+
+R CMD check succeeded
+
+==============
 On Tue, 2022-08-30 at 16:59 +0200, Victoria Wimmer wrote:
 > Thanks,
 > 

@@ -16,56 +16,6 @@
            "#D00000",
            "#AA0000")
 
-# #' .atpolBackground prepares and plots the map of ATPOL big grid (100km x 100km) on rasterized Poland
-# #' @importFrom sf st_bbox
-# #' @importFrom terra plot rast
-# #' @importFrom graphics axis par
-# #' @param main image title, usually a species name
-# #' @param colors vector of colors to be used as a background, default internal .myCols
-# #' @noRd
-# #'
-# .atpolBackground <- function(main = "", colors = .myCols){
-#   .bbox <- sf::st_bbox(atpol10k())
-#   cr <- terra::rast(system.file("extdata/cr.tif", package = "atpolR"))
-#   oldpar <- par(no.readonly = TRUE)
-#   on.exit(par(oldpar))
-#   par(pty = "s")
-#   terra::plot(cr, type="classes",
-#               col = colors,
-#               #        col = terrain.colors(12, alpha = 1, rev = FALSE),
-#               legend = FALSE,
-#               xlim = c(.bbox[1], .bbox[3]),
-#               ylim = c(.bbox[2], .bbox[4]),
-#               axes = FALSE,
-#               main = {{main}}
-#   )
-#   # adding water layer
-#   w <- terra::rast(system.file("extdata/water.tif", package = "atpolR"))
-#   terra::plot(w, add = TRUE, col = "#4476C3", legend = FALSE, axes = FALSE)
-#
-#   #
-#   a100k <- atpol100k()
-#   terra::plot(a100k$geometry, lwd = 0.5, add= TRUE)
-#   terra::plot(boundaryPL(), col = "darkred", add = TRUE)
-#   d <- list()
-#   for (letter in LETTERS[1:7]) {
-#     a <- subset(a100k, a100k$Name == paste0("D", letter)) |> sf::st_bbox()
-#     c <- a[4] - (a[4] - a[2])/2
-#     d <- append(d, c)
-#   }
-#   axis(2, at = c(d[1:7]), labels = c("A", "B", "C", "D", "E", "F", "G"), las = 1, lwd = 0, lwd.ticks = 0, line = -2)
-#   axis(4, at = c(d[1:7]), labels = c("A", "B", "C", "D", "E", "F", "G"), las = 1, lwd = 0, lwd.ticks = 0, line = -2)
-#
-#   d <- list()
-#   for (letter in LETTERS[1:7]) {
-#     a <- subset(a100k, a100k$Name == paste0(letter, "D")) |> sf::st_bbox()
-#     c <- a[3] - (a[3] - a[1])/2
-#     d <- append(d, c)
-#   }
-#   axis(1, at = c(d[1:7]), labels = c("A", "B", "C", "D", "E", "F", "G"), las = 1, lwd = 0, lwd.ticks = 0, line = -2)
-#   axis(3, at = c(d[1:7]), labels = c("A", "B", "C", "D", "E", "F", "G"), las = 1, lwd = 0, lwd.ticks = 0, line = -2)
-# }
-
 #' plotPoitsOnAtpol() plots the observations on ATPOL 10km x 10km grid
 #'
 #' @importFrom grDevices dev.off png svg
