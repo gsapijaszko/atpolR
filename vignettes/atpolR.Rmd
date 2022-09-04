@@ -18,14 +18,13 @@ knitr::opts_chunk$set(
 oldpar <- par(no.readonly = TRUE)
 ```
 
-# Introduction
-ATPOL grid was developed in late '60s in Institute of Botany at Jagiellonian University in Kraków. The backgrounds and methodology is described in [@zajacZalozeniaMetodyczneAtlasu1978; @zajacAtlasDistributionVascular1978]. The extensive mathematical research and GIS implementation was done by Łukasz Komsta and Marek Verey [@komstaRewizjaMatematycznaSiatki2016; @vereyTeoretycznaAnalizaPraktyczne2017]. Algorithms provided by Komsta on [OpenATPOL](https://atpol.sourceforge.io/) are basis for implementation in **atpolR** package.
+The ATPOL grid was created in the late 1960s at the Institute of Botany at Jagiellonian University in Kraków. [@zajacZalozeniaMetodyczneAtlasu1978; @zajacAtlasDistributionVascular1978] describes the background and methodology. Łukasz Komsta and Marek Verey carried out the extensive mathematical research and GIS implementation [@komstaRewizjaMatematycznaSiatki2016; @vereyTeoretycznaAnalizaPraktyczne2017]. Algorithms provided by Komsta on [OpenATPOL](https://atpol.sourceforge.io/) are basis for implementation in **atpolR** package.
 
 # Basic usage
 
 ## Prepare sample data based on published ATPOL data
 
-In our example we will take a published distribution map of _Erigeron acris_ L. subsp. _acris_ published in  [@zajacAtlasRozmieszczeniaRoslin2019]. The image was scanned with resolution 150 dpi and georefenced using QGIS.
+In our example we'll use a distribution map of _Erigeron acris_ L. subsp. _acris_ from   [@zajacAtlasRozmieszczeniaRoslin2019]. The image was scanned at 150 dpi and georeferenced with  QGIS.
 
 ```{r eriacr, fig.width = 7, fig.align='center', fig.cap = "_Erigeron acris_ L. subsp. _acris_ distribution taken from [@zajacAtlasRozmieszczeniaRoslin2019]"}
 par(mar = c(0, 0, 0, 0))
@@ -34,9 +33,9 @@ r <- terra::rast(tif)
 terra::plotRGB(r)
 ```
 
-There is hundreds of records. To get all of them we will use `check_atpol_square()` function, which takes as the arguments the POINT coordinates and a raster, and checks if the value of raster cell corresponding to some arbitrary buffer around the POINT equals zero. As the points are drawn in centers of ATPOL 10 km grid, we will check the values of atpol10k() centroids with an buffer with default radius of 1200 m. Depending of the quality of scan and precision of georeferencing, it might be useful to adjust a buffer a bit.
+There is hundreds of records. To get them all, we will use `check_atpol_square()` function, which takes the POINT coordinates and a raster as arguments and checks if the value of raster cell corresponding to some arbitrary buffer around the POINT equals zero. As the points are drawn in centers of ATPOL 10 km grid, the values of atpol10k() centroids with an buffer with radius of 1200 m will be checked. It may be necessary to adjust a buffer slightly depending of the quality of scan and precision of georeferencing.
 
-Our raster usually consist of 3 layers, one for each R, G, B component. The difference between them are visible on Fig. \@ref(fig:rgbraster).
+The raster usually consist of 3 layers, one for each R, G, B component. The difference between them are visible on Fig. \@ref(fig:rgbraster).
 
 ```{r rgbraster, echo = FALSE, message=FALSE, warning=FALSE, results='hide', fig.width = 7, fig.align='center', fig.cap="R, G and B layers of a raster"}
 par(mar = c(0, 0, 0, 0))
@@ -52,13 +51,13 @@ terra::plot(r[[3]], col = blus,  legend = FALSE, axes = FALSE)
 par(mfrow = c(1, 1))
 ```
 
-Looking on scan shown on Fig. \@ref(fig:eriacr) we can see a lot of green and blue components. For further analysis we will take the first layer only. Please note: depending of the scan quality and further image process, you may find other layer more useful. 
+We can see a lot of green and blue components in the scan shown in Fig. \@ref(fig:eriacr). We will only look at the first layer for now. Please keep in mind that other layers may be more useful depending on the scan quality and subsequent image processing. 
 
 ```{r rraster, echo = FALSE, message=FALSE, warning=FALSE, results='hide', fig.width = 7, fig.asp = 0.7, fig.align='center'}
 terra::plot(r[[1]], col = colorspace::sequential_hcl(255, "Reds", rev = TRUE), axes = FALSE)
 ```
 
-The values of the layer are continuous, from 0 to 255. For simplification and easier analysis we will classify the layer, just assigning two values: 0 and 1. We will create a reclassification matrix `rclmat` and apply `classify()` function form **terra** package.
+The layer's values are continuous, ranging from 0 to 255. To simplify and facilitate analysis, we will classify the layer by assigning only two values: 0 and 1. We'll make a reclassification matrix called `rclmat` and use the `classify()` function form the **terra** package.
 
 ```{r echo = TRUE, message=FALSE, warning=FALSE, results='hide'}
 m <- c(0,120, 0,
@@ -70,7 +69,7 @@ rc <- terra::classify(r[[1]], rclmat, include.lowest = TRUE)
 terra::plot(rc, axes = FALSE, col = c("black", "white"), legend = FALSE)
 ```
 
-Having the raster prepared we can load the package and apply the `check_atpol_square()` function for all 10k grids:
+After preparing the raster, we can load the package and run the `check_atpol_square()` function for all 10k grids:
 
 ```{r eriacr-reverse, echo=TRUE, message=FALSE, warning=FALSE}
 library(atpolR)
@@ -107,13 +106,13 @@ eriacr |>
   terra::plot(pch = 16, cex = 1.2, col = "blue", add = TRUE)
 ```
 
-So far, so god. Our data set corresponds to published data. In next step we will extend it with our own observations.
+Thus far, so god. Our data set corresponds to published data. In the next step we will add our own observations.
 
-Please note, that `check_atpol_square()` function can give false positive results in case of noisy scans. Also it doesn't recognize the different shapes used in original publications for different 
+Please keep in mind that `check_atpol_square()` function can produce false positive results in the case of noisy scans. it also does not recognize the various shapes used in original publications for various sites. 
 
 ## Extend the data
 
-Let's assume, we want to extend the data set by adding own observations. If we already know the grid name, we can simply filter out the grid created by `atpol10k()` function by the Name. If we don't have the grid, however we have coordinates, we can use `latlon_to_grid()` function. In below example we are using both methods:
+Assume we want to add our own observations the data set. If we already know the grid name, we can simply use the Name to filter out the grid created by the `atpol10k()` function. We can use `latlon_to_grid()` function if we don't have the grid but have coordinates. In the following example, we are using both methods:
 
 ```{r myData, echo = TRUE, warning=FALSE}
 myData <- atpol10k() |>
