@@ -6,7 +6,7 @@ Authors@R: c(
   person("Grzegorz", "Sapijaszko", role=c("aut", "cre", "cph"), email = "grzegorz@sapijaszko.net"),
   person("Łukasz", "Komsta", role="ctb"), 
   person("Marek", "Verey", role = "ctb"))
-Description: ATPOL is a rectangular grid system used for botanical studies in Poland. The ATPOL grid was developed in Institute of Botany, Jagiellonian University, Krakow, Poland in '70; Zając (1978) <doi:10.2307/1219899>. Since then it is widely used to represent distribution of plants in Poland. 
+Description: ATPOL is a rectangular grid system used for botanical studies in Poland. The ATPOL grid was developed in Institute of Botany, Jagiellonian University, Krakow, Poland in '70. Since then it is widely used to represent distribution of plants in Poland. 
     'atpolR' provides functions to translate geographic coordinates to the grid and vice versa. It also allows to create a choreograph map.
 License: GPL-3
 Language: en-US
