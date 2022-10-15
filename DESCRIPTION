@@ -2,6 +2,7 @@ Package: atpolR
 Type: Package
 Title: ATPOL Grid Implementation
 Version: 0.1.1
+Date: 2022-09-01
 Authors@R: c(
   person("Grzegorz", "Sapijaszko", role=c("aut", "cre", "cph"), email = "grzegorz@sapijaszko.net"),
   person("Łukasz", "Komsta", role="ctb"), 
