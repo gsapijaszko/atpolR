@@ -33,7 +33,7 @@ r <- terra::rast(tif)
 terra::plotRGB(r)
 ```
 
-There is hundreds of records. To get them all, we will use `check_atpol_square()` function, which takes the POINT coordinates and a raster as arguments and checks if the value of raster cell corresponding to some arbitrary buffer around the POINT equals zero. As the points are drawn in centers of ATPOL 10 km grid, the values of atpol10k() centroids with an buffer with radius of 1200 m will be checked. It may be necessary to adjust a buffer slightly depending of the quality of scan and precision of georeferencing.
+There is hundreds of records. To get them all, we will use `check_atpol_square()` function, which takes the POINT coordinates and a raster as arguments and checks if the values of raster cells corresponding to some arbitrary buffer around the POINT equals zero. As the points are drawn in centers of ATPOL 10 km grid, the values of atpol10k() centroids with an buffer with radius of 1200 m will be checked. It may be necessary to adjust a buffer slightly depending of the quality of scan and precision of georeferencing.
 
 The raster usually consist of 3 layers, one for each R, G, B component. The difference between them are visible on Fig. \@ref(fig:rgbraster).
 
