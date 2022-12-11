@@ -49,15 +49,16 @@ if(!file.exists("inst/extdata/cr.tif")) {
   for (cntry in countries) {
     geodata::elevation_30s(country = cntry, path = tempdir(), mask = FALSE)
   }
-  .bbox <- sf::st_bbox(atpol10k())
-  .ext <- terra::ext(c(.bbox[1], .bbox[3], .bbox[2], .bbox[4]))
+  bbox <- sf::st_bbox(atpolR::atpol10k())
+  ext <- terra::ext(c(bbox[1], bbox[3], bbox[2], bbox[4]))
 
   r <- list.files(path = tempdir(), pattern = ".+._elv.tif", full.names = TRUE)
   r <- lapply(r, terra::rast)
   r <- do.call(terra::merge, r)
   terra::crs(r) <- "EPSG:4326"
-  r<-terra::project(r, "EPSG:2180") |>
-    terra::crop(r, .ext) |>
-    terra::classify(r, c(-30,10,150,250,350,500,600, 700, 800, 1000, 1200, 1500, 1700, 2000, 2500)) |>
-    terra::writeRaster(r, filename = "inst/extdata/cr.tif")
+  r<-terra::project(r, "EPSG:2180")
+  r <- terra::crop(r, ext)
+  r[r<=0] <- 10
+  r <- terra::classify(r, c(0,50,100,200,300,400,500,600, 700, 800, 1000, 1200, 1500, 1700, 2000, 2500), brackets = FALSE, others = 1)
+  terra::writeRaster(r, filename = "inst/extdata/cr.tif", overwrite = TRUE)
 }

@@ -1,8 +1,8 @@
 Package: atpolR
 Type: Package
 Title: ATPOL Grid Implementation
-Version: 0.1.1
-Date: 2022-09-01
+Version: 0.1.2
+Date: 2022-12-11
 Authors@R: c(
   person("Grzegorz", "Sapijaszko", role=c("aut", "cre", "cph"), email = "grzegorz@sapijaszko.net"),
   person("Łukasz", "Komsta", role="ctb"), 
@@ -14,7 +14,7 @@ Language: en-US
 Encoding: UTF-8
 LazyData: true
 Depends:
-  R (>= 3.5.0)
+  R (>= 4.1.0)
 Imports:
   Rdpack (>= 0.7),
 	sf,
@@ -22,7 +22,7 @@ Imports:
 	stringr,
 	terra
 RdMacros: Rdpack
-RoxygenNote: 7.2.1
+RoxygenNote: 7.2.2
 URL: https://github.com/gsapijaszko/atpolR
 BugReports: https://github.com/gsapijaszko/atpolR/issues
 Suggests: 
@@ -31,4 +31,3 @@ Suggests:
     knitr,
     rmarkdown
 VignetteBuilder: knitr
-

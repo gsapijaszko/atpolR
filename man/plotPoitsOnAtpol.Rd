@@ -4,7 +4,8 @@
 \alias{plotPoitsOnAtpol}
 \title{plotPoitsOnAtpol() plots the observations on ATPOL 10km x 10km grid}
 \usage{
-plotPoitsOnAtpol(myData, outputType, filename, main, colors, cex, col, pch)
+plotPoitsOnAtpol(myData, outputType, filename, main, colors,
+water, cex, col, pch, grid10k)
 }
 \arguments{
 \item{myData}{SimpleFeature data frame with point geometry, usually centroid of ATPOL grid square}
@@ -15,13 +16,17 @@ plotPoitsOnAtpol(myData, outputType, filename, main, colors, cex, col, pch)
 
 \item{main}{image title, usually a species name}
 
-\item{colors}{vector of colors to be used as a background, default internal .myCols}
+\item{colors}{vector of colors to be used as a background, default internal .myCols. If FALSE, black and white plot has to be expected}
+
+\item{water}{logical, if water layer has to be included, default TRUE}
 
 \item{cex}{size of the points, default 0.9}
 
 \item{col}{color of the points, default black}
 
 \item{pch}{shape of the point, default 16 - filled dot}
+
+\item{grid10k}{logical, default FALSE. If the small grid has to be printed out}
 }
 \value{
 choreograph map of species distribution in Poland.
