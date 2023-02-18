@@ -1,19 +1,19 @@
 # .myCols defines a colors used for classified raster colorization
-.myCols <- c("#29AB08",
-             "#4CBF00",
-             "#7ACC00",
-             "#ADD900",
-             "#FFFF00",
-             "#FFDD00",
-             "#FFB700",
-             "#FF9000",
-             "#FF6A00",
-             "#FF4400",
-             "#E23924",
-             "#FF1D00",
-             "#F70000",
-             "#D00000",
-             "#AA0000")
+.myCols <- c("#56A54F",
+             "#6EB959",
+             "#8DC762",
+             "#B5D56D",
+             "#FDFD87",
+             "#F7DE79",
+             "#F2BB6A",
+             "#ED985D",
+             "#EA7952",
+             "#E85E4A",
+             "#CE5148",
+             "#E74A45",
+             "#E04141",
+             "#BC3636",
+             "#9A2A2A")
 
 #' plotPoitsOnAtpol() plots the observations on ATPOL 10km x 10km grid
 #'
