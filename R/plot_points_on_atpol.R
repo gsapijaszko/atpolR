@@ -92,8 +92,10 @@ plotPoitsOnAtpol <- function(myData = "", outputType = "", filename = "", main =
     d <- append(d, c)
   }
   axis(2, ## left
-       at = c(d[1:7]), labels = c("A", "B", "C", "D", "E", "F", "G"),
+       at = c(d[1:7]),
        pos = .bbox[[1]],
+       mgp = c(3, 0.25, 0),
+       labels = c("A", "B", "C", "D", "E", "F", "G"),
        las = 1, lwd = 0, lwd.ticks = 0, line = -0.5, cex = 1.1)
 
   # axis(4, ## right
@@ -117,8 +119,9 @@ plotPoitsOnAtpol <- function(myData = "", outputType = "", filename = "", main =
 
   axis(3, ## above
        at = c(d[1:7]),
-       labels = c("A", "B", "C", "D", "E", "F", "G"),
        pos = .bbox[[4]],
+       mgp = c(3, 0.25, 0),
+       labels = c("A", "B", "C", "D", "E", "F", "G"),
        las = 1, lwd = 0, lwd.ticks = 0, line = -0.5, cex = 1.1)
 
   if(isTRUE({{grid10k}})) {
