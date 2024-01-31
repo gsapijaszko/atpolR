@@ -62,8 +62,8 @@ plotPoitsOnAtpol <- function(myData = "", outputType = "", filename = "", main =
                 col = colors,
                 #        col = terrain.colors(12, alpha = 1, rev = FALSE),
                 legend = FALSE,
-                xlim = c(.bbox[1], .bbox[3]),
-                ylim = c(.bbox[2], .bbox[4]),
+                xlim = c(.bbox[[1]], .bbox[[3]]),
+                ylim = c(.bbox[[2]], .bbox[[4]]),
                 axes = FALSE,
                 main = {{main}})
 
@@ -78,8 +78,8 @@ plotPoitsOnAtpol <- function(myData = "", outputType = "", filename = "", main =
     terra::plot(cr, type="classes",
                 col = "white",
                 legend = FALSE,
-                xlim = c(.bbox[1], .bbox[3]),
-                ylim = c(.bbox[2], .bbox[4]),
+                xlim = c(.bbox[[1]], .bbox[[3]]),
+                ylim = c(.bbox[[2]], .bbox[[4]]),
                 axes = FALSE,
                 main = {{main}})
   }
@@ -91,8 +91,16 @@ plotPoitsOnAtpol <- function(myData = "", outputType = "", filename = "", main =
     c <- a[4] - (a[4] - a[2])/2
     d <- append(d, c)
   }
-  axis(2, at = c(d[1:7]), labels = c("A", "B", "C", "D", "E", "F", "G"), las = 1, lwd = 0, lwd.ticks = 0, line = -0.5, cex = 1.1)
-  # axis(4, at = c(d[1:7]), labels = c("A", "B", "C", "D", "E", "F", "G"), las = 1, lwd = 0, lwd.ticks = 0, line = -0.5, cex = 1.1)
+  axis(2, ## left
+       at = c(d[1:7]), labels = c("A", "B", "C", "D", "E", "F", "G"),
+       pos = .bbox[[1]],
+       las = 1, lwd = 0, lwd.ticks = 0, line = -0.5, cex = 1.1)
+
+  # axis(4, ## right
+  #      at = c(d[1:7]),
+  #      pos = .bbox[[3]],
+  #      labels = c("A", "B", "C", "D", "E", "F", "G"),
+  #      las = 1, lwd = 0, lwd.ticks = 0, line = -0.5, cex = 1.1)
 
   d <- list()
   for (letter in LETTERS[1:7]) {
@@ -100,8 +108,18 @@ plotPoitsOnAtpol <- function(myData = "", outputType = "", filename = "", main =
     c <- a[3] - (a[3] - a[1])/2
     d <- append(d, c)
   }
-  # axis(1, at = c(d[1:7]), labels = c("A", "B", "C", "D", "E", "F", "G"), las = 1, lwd = 0, lwd.ticks = 0, line = -0.5, cex = 1.1)
-  axis(3, at = c(d[1:7]), labels = c("A", "B", "C", "D", "E", "F", "G"), las = 1, lwd = 0, lwd.ticks = 0, line = -0.5, cex = 1.1)
+
+  # axis(1, ## below
+  #      at = c(d[1:7]),
+  #      pos = .bbox[[2]],
+  #      labels = c("A", "B", "C", "D", "E", "F", "G"),
+  #      las = 1, lwd = 0, lwd.ticks = 0, line = -0.5, cex = 1.1)
+
+  axis(3, ## above
+       at = c(d[1:7]),
+       labels = c("A", "B", "C", "D", "E", "F", "G"),
+       pos = .bbox[[4]],
+       las = 1, lwd = 0, lwd.ticks = 0, line = -0.5, cex = 1.1)
 
   if(isTRUE({{grid10k}})) {
     gr <- atpol10k()
@@ -114,17 +132,20 @@ plotPoitsOnAtpol <- function(myData = "", outputType = "", filename = "", main =
   if(isFALSE({{colors}}) & isFALSE({{water}})) {
     suppressMessages(sf::st_read(system.file("extdata/waters.gpkg", package = "atpolR"), layer = "rivers")) |>
       sf::st_geometry() |>
+      terra::vect() |>
       terra::plot(add = TRUE, col = "blue")
 
     suppressMessages(sf::st_read(system.file("extdata/waters.gpkg", package = "atpolR"), layer = "water")) |>
       sf::st_geometry() |>
+      terra::vect() |>
       terra::plot(col = "blue", border = "blue", add = TRUE)
   }
 
-  terra::plot(boundaryPL(), col = "darkred", add = TRUE)
+  terra::plot(terra::vect(boundaryPL()), col = "darkred", add = TRUE)
 
   ### adding data
   if(inherits({{myData}}, "sf") || inherits({{myData}}, "sfc")) {
+    myData <- terra::vect(myData)
     terra::plot({{myData}}, pch = {{pch}},
                 cex = ifelse(outputType == "svg", 1.5, {{cex}}),
                 add = TRUE, col = {{col}}, lty = 1)
